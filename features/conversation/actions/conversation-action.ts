@@ -3,6 +3,7 @@
 import { requireUser } from "@/features/auth/action/require-user";
 import { prisma } from "@/lib/db";
 import { revalidatePath } from "next/cache";
+import { readRouteCacheEntry } from "next/dist/client/components/segment-cache/cache";
 
 export type ConversationListItem = {
     id: string;
@@ -13,6 +14,7 @@ export type ConversationListItem = {
     createdAt: Date;
     updatedAt: Date;
 };
+
 
 async function assertOwnsConversation(conversationId: string, userId: string) {
     const conversation = await prisma.conversation.findFirst({
@@ -28,6 +30,12 @@ async function assertOwnsConversation(conversationId: string, userId: string) {
 
     return conversation
 }
+
+export async function getConversation(consversationId:string) {
+    const user = await requireUser();
+    return assertOwnsConversation(consversationId,user.id)
+}
+
 
 export async function listConversations(): Promise<ConversationListItem[]> {
     const user = await requireUser();

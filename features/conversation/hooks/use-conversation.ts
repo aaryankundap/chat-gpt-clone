@@ -9,7 +9,7 @@ import {
     deleteConversation,
     listConversations,
     updateConversation,
-} from "@/features/conversation/actions/conversation-actions";
+} from "@/features/conversation/actions/conversation-action";
 import { queryKeys } from "../utils/query-keys";
 
 
