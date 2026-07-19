@@ -7,8 +7,8 @@ An extension of the [chai-gpt-build](https://github.com/Aestheticsuraj234/chai-g
 
 ## Live Deployment
 
-- App: `<your deployed URL>`
-- Demo video: `<your video link>`
+- App: chat-gpt-clone-jf5q-seven.vercel.app
+
 
 ## Tech Stack
 
