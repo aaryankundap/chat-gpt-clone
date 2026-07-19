@@ -3,7 +3,6 @@
 import { requireUser } from "@/features/auth/action/require-user";
 import { prisma } from "@/lib/db";
 import { revalidatePath } from "next/cache";
-import { readRouteCacheEntry } from "next/dist/client/components/segment-cache/cache";
 
 export type ConversationListItem = {
     id: string;
@@ -16,7 +15,7 @@ export type ConversationListItem = {
 };
 
 
-async function assertOwnsConversation(conversationId: string, userId: string) {
+export async function assertOwnsConversation(conversationId: string, userId: string) {
     const conversation = await prisma.conversation.findFirst({
         where: {
             id: conversationId,
