@@ -30,10 +30,17 @@ export const Tool = ({ className, ...props }: ToolProps) => (
   />
 );
 
-/** Maps a tool part's streaming state to a label + icon + badge variant. */
-const STATE_META: Record<
-  ToolUIPart["state"],
-  { label: string; icon: ReactNode; variant: "secondary" | "outline" | "destructive" }
+/**
+ * Maps a tool part's streaming state to a label + icon + badge variant.
+ * Partial (not a full Record) because ToolUIPart["state"] includes
+ * approval-flow states (approval-requested/responded, output-denied) that
+ * this app's tools never produce — webSearch runs without approval.
+ */
+const STATE_META: Partial<
+  Record<
+    ToolUIPart["state"],
+    { label: string; icon: ReactNode; variant: "secondary" | "outline" | "destructive" }
+  >
 > = {
   "input-streaming": {
     label: "Preparing search…",
@@ -63,8 +70,14 @@ export type ToolHeaderProps = HTMLAttributes<HTMLButtonElement> & {
   state: ToolUIPart["state"];
 };
 
+const DEFAULT_META = {
+  label: "Waiting…",
+  icon: <Loader2Icon className="size-3 animate-spin" />,
+  variant: "secondary" as const,
+};
+
 export const ToolHeader = ({ type, state, className, ...props }: ToolHeaderProps) => {
-  const meta = STATE_META[state];
+  const meta = STATE_META[state] ?? DEFAULT_META;
 
   return (
     <CollapsibleTrigger
